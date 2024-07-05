@@ -8,29 +8,20 @@ public:
         }
 
         int n=nums.size();
-        
-        //min heap
-        priority_queue< pair<int,int>,
-        vector<pair<int,int>>,
-        greater<pair<int,int>> > pq;
-
+        vector<vector<int>> bucket(n+1);
         for(auto &it:mp){
-            //check if heap is full then remove smallest element
-            if(pq.size()<k) pq.push({it.second,it.first});
-            else if(pq.size()==k && pq.top().first<it.second){
-                pq.pop();
-                pq.push({it.second,it.first});
-            }
+            int freq=it.second;
+            int ele=it.first;
 
-            // pq.push({it.second,it.first});
+            bucket[freq].push_back(ele);
         }
+
 
         vector<int> res;
-        while(!pq.empty()){
-            res.push_back(pq.top().second);
-            pq.pop();
+        for(int i=n;i>=0;i--){
+            if(res.size()==k) break;
+            res.insert(res.end(),bucket[i].begin(),bucket[i].end());
         }
-
         return res;
     }
 };
