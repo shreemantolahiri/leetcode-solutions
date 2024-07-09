@@ -1,8 +1,9 @@
 class Solution {
 public:
+    vector<string> dp;
     string solve(int n){
         if(n==1) return "1";
-
+        if(dp[n]!="") return dp[n];
         string s=solve(n-1);
 
         //process s
@@ -22,10 +23,11 @@ public:
         str+=to_string(count);
         str+=s[s.size()-1];
 
-        return str;
+        return dp[n]=str;
         
     }
     string countAndSay(int n) {
+        dp.resize(n+1,"");
         return solve(n);
     }
 };
