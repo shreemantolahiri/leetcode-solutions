@@ -61,7 +61,7 @@ public:
     int maxNumEdgesToRemove(int n, vector<vector<int>>& edges) {
         DSU a=DSU(n+1);
         DSU b=DSU(n+1);
-
+        sort(edges.begin(),edges.end(),greater<>());
         int count=0;
         for(int i=0;i<edges.size();i++){
             int type=edges[i][0];
@@ -99,7 +99,7 @@ public:
                 int Bvp=b.findUltPar(v);
 
                 if(Aup==Avp && Bup==Bvp){
-                    count+=2;
+                    count++;
                 }
                 else{
                     a.unionBySize(Aup,Avp);
