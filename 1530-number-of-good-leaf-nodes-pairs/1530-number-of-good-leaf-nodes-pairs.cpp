@@ -16,7 +16,7 @@ public:
     int bfs(TreeNode* &node, int dist,
     unordered_map<TreeNode*, unordered_set<TreeNode*>>& mp) {
         queue<pair<TreeNode*, TreeNode*>> q;
-        cout<<"BFS: "<<node->val<<endl;
+        // cout<<"BFS: "<<node->val<<endl;
         q.push({NULL, node});
         int lvl = 0;
         int count = 0;
@@ -27,7 +27,7 @@ public:
             for (int i = 0; i < siz; i++) {
                 TreeNode* curr = q.front().second;
                 TreeNode* par = q.front().first;
-                cout<<curr->val<<endl;
+                // cout<<curr->val<<endl;
                 q.pop();
                 if (curr != node && leaves.count(curr) > 0)
                     count++;
