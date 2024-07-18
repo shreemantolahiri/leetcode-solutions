@@ -13,7 +13,7 @@
 class Solution {
 public:
     unordered_set<TreeNode*> leaves;
-    int bfs(TreeNode* node, int dist,
+    int bfs(TreeNode* &node, int dist,
     unordered_map<TreeNode*, unordered_set<TreeNode*>>& mp) {
         queue<pair<TreeNode*, TreeNode*>> q;
         cout<<"BFS: "<<node->val<<endl;
@@ -43,7 +43,7 @@ public:
 
         return count;
     }
-    void buildGraph(TreeNode* par, TreeNode* child,
+    void buildGraph(TreeNode* &par, TreeNode* &child,
                     unordered_map<TreeNode*, unordered_set<TreeNode*>>& mp) {
         if (child == NULL)
             return;
