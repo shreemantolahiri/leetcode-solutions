@@ -34,10 +34,10 @@ public:
         bfs(node1,dist1,edges);
         bfs(node2,dist2,edges);
 
-        for(auto it:dist1) cout<<it<<" ";
-        cout<<endl;
-        for(auto it:dist2) cout<<it<<" ";
-        cout<<endl;
+        // for(auto it:dist1) cout<<it<<" ";
+        // cout<<endl;
+        // for(auto it:dist2) cout<<it<<" ";
+        // cout<<endl;
         int minDist=INT_MAX; int node=-1;
         for(int i=0;i<=n;i++){
             if(dist1[i]!=-1 && dist2[i]!=-1){
