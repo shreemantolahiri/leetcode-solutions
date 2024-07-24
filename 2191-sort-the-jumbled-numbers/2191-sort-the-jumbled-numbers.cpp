@@ -43,3 +43,9 @@ public:
         return nums;  // Return the sorted array
     }
 };
+auto init = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    return 'c';
+}();
