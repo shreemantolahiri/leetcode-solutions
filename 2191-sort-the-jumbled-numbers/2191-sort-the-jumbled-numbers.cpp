@@ -1,43 +1,38 @@
 class Solution {
 public:
+    int mapped(int a,vector<int>& mapping){
+        string s=to_string(a);
+        int num=0;
+        for(int i=0;i<s.length();i++){
+            int curr=s[i]-'0';
+            int map=mapping[curr];
+            num=num*10+map;
+        }
+        
+        // int mul=1;
+        // while(a>0){
+        //     int dig=a%10;
+        //     num+=mapping[dig]*mul;
+        //     a=a/10;
+        //     mul*=10;
+        // }
+
+        return num;
+    }
     vector<int> sortJumbled(vector<int>& mapping, vector<int>& nums) {
-        int n = mapping.size();
+        
+        sort(nums.begin(),nums.end(),[&](int a,int b){
+            int mappeda=mapped(a,mapping);
+            int mappedb=mapped(b,mapping);
 
-        int m = nums.size();
-
-        vector<pair<int,int>>newVal;
-
-        for(int i =0;i<m;i++)
-        {   
-            int num = nums[i];
-
-            string result;
-            if(num==0)
-            {
-                result+=to_string(mapping[0]);
+            if(mappeda==mappedb){
+                return false;
             }
-            while(num>0)
-            {
-                int digit = num%10;
-                num/=10;
-                int mappedDigit = mapping[digit];
+            else{
+                return mappeda<mappedb;
+            }
+        });
 
-                result+= to_string(mappedDigit);
-                
-            } 
-                reverse(result.begin(), result.end());
-                int val = stoi(result);
-                newVal.push_back({val,i});
-        }
-
-        sort(newVal.begin(),newVal.end());
-
-        vector<int>ans;
-        for(auto it : newVal)
-        {
-            ans.push_back(nums[it.second]);
-        }
-
-        return ans;
+        return nums;
     }
 };
