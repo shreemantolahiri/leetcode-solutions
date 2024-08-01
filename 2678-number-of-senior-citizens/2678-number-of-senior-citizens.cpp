@@ -9,7 +9,7 @@ public:
 
             int age=c2-'0';
             age+=(c1-'0')*10;
-            // cout<<age<<endl;
+            
             if(age>60) count++;
         }
 
