@@ -29,7 +29,7 @@ public:
                 int prev=n+ind-ones;
                 if(nums[prev]==0) zeroes--;
             }
-            cout<<ind<<" "<<zeroes<<endl;
+            // cout<<ind<<" "<<zeroes<<endl;
             swaps=min(swaps,zeroes);
             ind=(ind+1)%n;
         }
