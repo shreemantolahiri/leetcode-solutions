@@ -8,7 +8,7 @@ public:
         for(int i=0;i<nums.size();i++){
             if(nums[i]==1) ones++;
         }
-        
+        if(ones==0) return 0;
 
         int swaps=n-ones;
         // int zeroes=0;
