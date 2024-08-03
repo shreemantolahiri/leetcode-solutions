@@ -15,6 +15,7 @@ public:
         sort(target.begin(),target.end());
         sort(arr.begin(),arr.end());
 
-        return check(target,arr);
+        return target==arr;
+        // return check(target,arr);
     }
 };
