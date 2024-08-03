@@ -1,61 +1,52 @@
-#include<bits/stdc++.h>
-using namespace std;
 class Solution {
 public:
-    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
-        
-        vector<vector<int>> adj(n,vector<int>(n,INT_MAX));
-        for(int i=0;i<edges.size();i++){
-            int from=edges[i][0];
-            int to=edges[i][1];
-            int cost=edges[i][2];
+    void floydWarshall(vector<vector<int>> &adj){
+        int n=adj.size();
 
-            adj[to][from]=cost;
-            adj[from][to]=cost;
-        }
-        //src to src is always zero
-        for(int i=0;i<n;i++){
-            adj[i][i]=0;
-        }
-
-        vector<vector<int>> dist=adj;
-
-        for(int v=0;v<n;v++){
-            //V-1 times via node v
+        for(int k=0;k<n;k++){
             for(int i=0;i<n;i++){
                 for(int j=0;j<n;j++){
-                    if(dist[i][v]!=INT_MAX && dist[v][j]!=INT_MAX)
-                    dist[i][j]=min(dist[i][j],dist[i][v]+dist[v][j]);
+                    if(adj[i][k]!=INT_MAX && adj[k][j]!=INT_MAX){
+                        adj[i][j]=min(adj[i][j],adj[i][k]+adj[k][j]);
+                    }
                 }
             }
         }
+    }
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        vector<vector<int>> adj(n,vector<int>(n,INT_MAX));
 
-        //now we have the dist array
-        for(int i=0;i<n;i++){
-                for(int j=0;j<n;j++){
-                    cout<<dist[i][j]<<" ";
-                }
-                cout<<endl;
+        for(int i=0;i<edges.size();i++){
+            int a=edges[i][0];
+            int b=edges[i][1];
+            int c=edges[i][2];
+
+            adj[a][b]=c;
+            adj[b][a]=c;
         }
 
-        int cityMax=n+1;
+        floydWarshall(adj);
+        int minCities=INT_MAX;
         int city=-1;
+        //now we traverse the nodes
         for(int i=0;i<n;i++){
             int count=0;
-            //city number i
             for(int j=0;j<n;j++){
-                if(dist[i][j]<=distanceThreshold) count++;
+                if(i==j) continue;
+                else{
+                    if(adj[i][j]<=distanceThreshold) count++;
+                }
             }
-            if(count<cityMax){ 
-                cityMax=count;
+
+            if(count<minCities){
+                minCities=count;
                 city=i;
             }
-            else if(count==cityMax){
-                city=max(i,city);
-            } 
+            else if(count==minCities){
+                city=i;
+            }
         }
 
         return city;
-
     }
 };
