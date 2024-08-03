@@ -6,7 +6,7 @@ public:
         unordered_map<int,int> mp;
         int l=0;
         for(int r=0;r<fruits.size();r++){
-            if(mp.find(fruits[r])==mp.end() || mp[fruits[r]]==0){
+            if(mp[fruits[r]]==0){
                 //new type
                 if(types<2){
                     mp[fruits[r]]++;
