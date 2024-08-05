@@ -1,21 +1,25 @@
 class Solution {
 public:
+    int mod=1000000007;
     int rangeSum(vector<int>& nums, int n, int left, int right) {
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> mqueue;
-	for (int i=0; i<n; i++)
-		mqueue.push({nums[i], i+1});
+        
+        vector<long long> arr;
+        
+        for(int i=0;i<n;i++){
+            long long sum=0;
+            for(int j=i;j<n;j++){
+                sum=(sum+nums[j])%mod;
+                arr.push_back(sum);
+            }
+        }
 
-	int ans = 0, mod = 1e9+7;
-	for (int i=1; i<=right; i++) {
-		auto p = mqueue.top();
-		mqueue.pop();
-		if (i >= left)
-			ans = (ans + p.first) % mod;
-		if (p.second < n) {
-			p.first += nums[p.second++];
-			mqueue.push(p);
-		}
-	}
-	return ans;
-}
+        sort(arr.begin(),arr.end());
+        // for(auto i:arr) cout<<i<<" ";
+        long long res=0;
+        for(int i=left-1;i<=right-1;i++){
+            res=(res+arr[i])%mod;
+        }
+
+        return res;
+    }
 };
