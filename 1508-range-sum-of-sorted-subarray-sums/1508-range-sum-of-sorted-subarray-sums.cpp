@@ -2,24 +2,34 @@ class Solution {
 public:
     int mod=1000000007;
     int rangeSum(vector<int>& nums, int n, int left, int right) {
-        
-        vector<long long> arr;
-        
+        priority_queue<pair<int,int>,
+        vector<pair<int,int>>,
+        greater<pair<int,int>> > pq;
+
+        vector<int> res;
+
         for(int i=0;i<n;i++){
-            long long sum=0;
-            for(int j=i;j<n;j++){
-                sum=(sum+nums[j])%mod;
-                arr.push_back(sum);
+            pq.push({nums[i],i});
+        }
+
+        while(!pq.empty()){
+            auto it=pq.top();
+            pq.pop();
+
+            int sum=it.first;
+            int ind=it.second;
+            res.push_back(sum);
+            if(ind!=n-1){
+                sum=(sum+nums[ind+1])%mod;
+                pq.push({sum,ind+1});
             }
         }
 
-        sort(arr.begin(),arr.end());
-        // for(auto i:arr) cout<<i<<" ";
-        long long res=0;
+        int ans=0;
         for(int i=left-1;i<=right-1;i++){
-            res=(res+arr[i])%mod;
+            ans=(ans+res[i])%mod;
         }
 
-        return res;
+        return ans;
     }
 };
