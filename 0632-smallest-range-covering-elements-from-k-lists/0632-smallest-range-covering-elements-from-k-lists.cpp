@@ -15,7 +15,7 @@ public:
             int ind=0;
             int largest=nums[0][0];
             for(int j=0;j<n;j++){
-                cout<<nums[j].size()<<" ";
+                // cout<<nums[j].size()<<" ";
                 if(nums[j].size()==0) break;
                 if(smallest>nums[j][0]){
                     smallest=nums[j][0];
@@ -27,7 +27,7 @@ public:
                 res=largest-smallest;
                 ans={smallest,largest};
             }
-            cout<<endl;
+            // cout<<endl;
             nums[ind].erase(nums[ind].begin());
             if(nums[ind].size()==0) break;
         }
