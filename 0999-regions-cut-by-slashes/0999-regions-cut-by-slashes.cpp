@@ -1,111 +1,88 @@
 class Solution {
+public:
+    // Disjoint Set Union (DSU) or Union-Find data structure
+    class DSU {
     public:
-    class DSU{
-        public:
         int n;
-        vector<int> par;
-        vector<int> siz;
-        DSU(int m){
-            n=m;
-            par.resize(n);
-            siz.resize(n,1);
+        vector<int> par, siz;
 
-            for(int i=0;i<n;i++){
-                par[i]=i;
+        // Constructor initializes n elements with their respective parents
+        DSU(int m) : n(m), par(m), siz(m, 1) {
+            for (int i = 0; i < n; i++) {
+                par[i] = i;
             }
         }
 
-        int findUPar(int u){
-            if(par[u]==u) return u;
-
-            return par[u]=findUPar(par[u]);
+        // Find the ultimate parent (with path compression)
+        int findUPar(int u) {
+            if (par[u] == u) return u;
+            return par[u] = findUPar(par[u]);
         }
 
-        void unionBySize(int u,int v){
-            int ulpU=findUPar(u);
-            int ulpV=findUPar(v);
+        // Union by size - attach smaller tree under larger one
+        void unionBySize(int u, int v) {
+            int ulpU = findUPar(u);
+            int ulpV = findUPar(v);
 
-            if(ulpU==ulpV) return;
+            if (ulpU == ulpV) return; // Already in the same component
 
-            if(siz[ulpV]>siz[ulpU]){
-                siz[ulpV]+=siz[ulpU];
-                par[ulpU]=ulpV;
+            if (siz[ulpV] > siz[ulpU]) {
+                siz[ulpV] += siz[ulpU];
+                par[ulpU] = ulpV;
+            } else {
+                siz[ulpU] += siz[ulpV];
+                par[ulpV] = ulpU;
             }
-            else{
-                siz[ulpU]+=siz[ulpV];
-                par[ulpV]=ulpU;
-            }
-
-            return;
         }
     };
-    int getCode(char ch){
-        if(ch==' ') return 0;
-        else if(ch=='/') return 1;
-        else return 2;
-    }
+
     int regionsBySlashes(vector<string>& grid) {
-        //there will be n*2 mini boxes
-        int n=grid.size();
+        int n = grid.size();
+        int m = n * n * 4;  // Each cell is divided into 4 parts
+        DSU dsu(m);
 
-        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int num = i * n + j;
+                int first = 4 * num;
+                int second = first + 1;
+                int third = first + 2;
+                int fourth = first + 3;
 
-        
-        int m=n*n*4;
-        // return m;
-        DSU d(m);
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                int num=(i*n)+j;
+                char ch = grid[i][j];
 
-                int first=4*num;
-                int second=4*num+1;
-                int third=4*num+2;
-                int fourth=4*num+3;
-                int code=getCode(grid[i][j]);
-
-                if(code==0){
-                    //merge the regions
-                    d.unionBySize(first,second);
-                    d.unionBySize(third,fourth);
-                    d.unionBySize(first,third);
-                    // d.unionBySize(second,fourth);
-                }
-                else if(code==1){
-                    // means its is "/"
-                    d.unionBySize(first,second);
-                    d.unionBySize(third,fourth);
-                }
-                else{
-                    // it is "\"
-                    d.unionBySize(fourth,second);
-                    d.unionBySize(third,first);
-                }
-                //we check in left and up
-                //left
-                if(j>0){
-                    d.unionBySize(first,first-1);
+                // Union the parts within the current cell
+                if (ch == ' ') {
+                    dsu.unionBySize(first, second);
+                    dsu.unionBySize(second, third);
+                    dsu.unionBySize(third, fourth);
+                    dsu.unionBySize(first, fourth); // Added this line
+                } else if (ch == '/') {
+                    dsu.unionBySize(first, second);
+                    dsu.unionBySize(third, fourth);
+                } else {  // ch == '\\'
+                    dsu.unionBySize(first, third);
+                    dsu.unionBySize(second, fourth);
                 }
 
-                //up
-                if(i>0){
-                    // int upCode=getCode(grid[i-1][j]);
-                    int upIndex=(((i-1)*n)+j)*4+2;
-                    // int upDown=((i-1)*n)+j+2;
-                    
-                    //merge with up
-                    d.unionBySize(upIndex,second);
-                    
+                // Union with the left neighbor
+                if (j > 0) {
+                    int leftFourth = 4 * (num - 1) + 3;
+                    dsu.unionBySize(first, leftFourth);
+                }
+
+                // Union with the upper neighbor
+                if (i > 0) {
+                    int upperThird = 4 * (num - n) + 2;
+                    dsu.unionBySize(second, upperThird);
                 }
             }
         }
 
-        int count=0;
-        // cout<<m<<endl;
-        for(int i=0;i<m;i++){
-            // cout<<"i= "<<i<<" par="<<d.par[i]<<" size="<<d.siz[i]<<endl;
-            
-            if(d.par[i]==i) count++;
+        // Count unique components (roots) in the DSU
+        int count = 0;
+        for (int i = 0; i < m; i++) {
+            if (dsu.findUPar(i) == i) count++;
         }
 
         return count;
