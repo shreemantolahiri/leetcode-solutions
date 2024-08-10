@@ -56,7 +56,7 @@ public:
                     dsu.unionBySize(first, second);
                     dsu.unionBySize(second, third);
                     dsu.unionBySize(third, fourth);
-                    dsu.unionBySize(first, fourth); // Added this line
+
                 } else if (ch == '/') {
                     dsu.unionBySize(first, second);
                     dsu.unionBySize(third, fourth);
