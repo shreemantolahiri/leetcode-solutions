@@ -69,7 +69,7 @@ class Solution {
                     d.unionBySize(first,second);
                     d.unionBySize(third,fourth);
                     d.unionBySize(first,third);
-                    d.unionBySize(second,fourth);
+                    // d.unionBySize(second,fourth);
                 }
                 else if(code==1){
                     // means its is "/"
