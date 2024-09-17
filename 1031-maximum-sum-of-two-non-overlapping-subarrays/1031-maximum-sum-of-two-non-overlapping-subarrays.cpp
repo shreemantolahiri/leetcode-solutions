@@ -1,15 +1,15 @@
 class Solution {
 public:
+    vector<int> prefix;
     int sumOfK(int ind,vector<int>& nums,int k){
         int n=nums.size();
-        n=min(ind+k,n);
+        n=min(ind+k-1,n-1);
 
-        int sum=0;
-        for(int i=ind;i<n;i++){
-            sum+=nums[i];
-        }
-        // cout<<ind<<" to "<<ind+k<<" is= "<<sum<<endl;
+        int sum=prefix[n];
+        if(ind>0) sum-=prefix[ind-1];
+
         return sum;
+        
     }
     int solve(int ind,vector<int>& nums, int firstLen, int secondLen){
         if(ind>=nums.size()) return 0;
@@ -32,7 +32,12 @@ public:
     }
     int maxSumTwoNoOverlap(vector<int>& nums, int firstLen, int secondLen) {
         
-
+        prefix.resize(nums.size(),0);
+        int sum=0;
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+            prefix[i]=sum;
+        }
         return solve(0,nums,firstLen,secondLen);
     }
 };
