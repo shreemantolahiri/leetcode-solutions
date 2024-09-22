@@ -16,38 +16,57 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
-    TreeNode* convertArrToBST(vector<int> &nums,int l,int h){     
-        if(l>h) return NULL;
-        int mid=l+(h-l)/2;
+    ListNode* getMiddleNode(ListNode* temp){
+        if(temp->next==NULL) return temp;
+        ListNode* fast=temp->next;
+        ListNode* slow=temp;
 
-        TreeNode* curr=new TreeNode(nums[mid]);
-        curr->left=convertArrToBST(nums,l,mid-1);
-        curr->right=convertArrToBST(nums,mid+1,h);
+        while(fast && fast->next){
+            fast=fast->next;
+            if(fast) fast=fast->next;
 
-        return curr;
-
-    }
-    vector<int> convertLLtoArr(ListNode*& head) {
-        vector<int> nums;
-        ListNode* temp = head;
-        while (temp) {
-            nums.push_back(temp->val);
-            temp = temp->next;
+            if(slow) slow=slow->next;
         }
 
-        return nums;
+        return slow;
     }
-    TreeNode* sortedListToBST(ListNode* head) {
-        vector<int> nums = convertLLtoArr(head);
-        int n=nums.size();
-        TreeNode* root=convertArrToBST(nums,0,n-1);
+    ListNode* getPrevNode(ListNode* head,ListNode* target){
+        ListNode* prev=NULL;
+        if(head==target) return prev;
+        while(head && head!=target){
+            prev=head;
+            head=head->next;
+        }
+
+        return prev;
+    }
+    TreeNode* buildBST(ListNode* &head){
+        if(head==NULL) return NULL;
+
+        //root node=mid node
+        ListNode* mid=getMiddleNode(head);
+        if(mid==NULL) return NULL;
+        cout<<mid->val<<endl;
+        TreeNode* root=new TreeNode(mid->val);
+
+        //break the LL
+        ListNode* prev=getPrevNode(head,mid);
+        if(prev) prev->next=NULL;
+
+        //leftChild
+        if(!prev) root->left=NULL;
+        else root->left=buildBST(head);
+        //rightChild
+        root->right=buildBST(mid->next);
 
         return root;
+    }
+    TreeNode* sortedListToBST(ListNode* head) {
+        return buildBST(head);
     }
 };
