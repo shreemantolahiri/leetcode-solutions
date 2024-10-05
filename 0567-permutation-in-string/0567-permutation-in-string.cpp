@@ -2,43 +2,38 @@ class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
         int n = s2.length();
+        int m = s1.length();
         unordered_map<char, int> mp;
         for (char ch : s1)
             mp[ch]++;
 
-        unordered_map<char, int> backup = mp;
-        int j = 0;
-        for (int i = 0; i < n; i++) {
-            char ch = s2[i];
+        unordered_map<char, int> mp1;
 
-            if (mp.find(ch) != mp.end()) {
-                // in map
-                mp[ch]--;
-                if (mp[ch] == 0)
-                    mp.erase(ch);
-                if (mp.size() == 0)
-                    return true;
-                int j = i + 1;
-                while (j < n) {
-                    if (mp.find(s2[j]) == mp.end())
-                        break;
+        int i = 0, j = 0;
 
-                    else {
-                        mp[s2[j]]--;
-                        if (mp[s2[j]] == 0)
-                            mp.erase(s2[j]);
-                    }
-                    j++;
-                }
-                if (mp.size() == 0)
-                    return true;
-                else
-                    mp = backup;
+        while (j < n) {
+            // if (j - i == m)
+            //     return true;
+            char ch = s2[j];
+            if (mp[ch] == 0) {
+                // does not exist
+                mp1.clear();
+                i = j + 1;
+                j++;
+            } else if (mp1[ch] < mp[ch]) {
+                mp1[ch]++;
+                j++;
             } else {
-                // not existing in map
-                //  mp=backup;
-                continue;
+                mp1[ch]++;
+                while (i < j && mp1[ch] > mp[ch]) {
+                    mp1[s2[i]]--;
+                    i++;
+                }
+                j++;
             }
+
+            if (j - i == m)
+                return true;
         }
 
         return false;
