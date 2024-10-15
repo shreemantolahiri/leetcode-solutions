@@ -1,23 +1,28 @@
 class Solution {
 public:
-    bool checkBit(int &flag, int &n){
-        return flag & (1<<n);
-    }
-    void setBit(int &flag, int &n){
-        flag = flag | (1<<n);
-    }
     int partitionString(string s) {
-        int flag = 0;
-        int i = 0, ans = 1;
-        while(i < s.size()){
-            int n = s[i] - 'a';
-            if( checkBit(flag, n) ) {
-                flag = 0;
-                ans++;
+        int flag=0;
+        int count=1;
+        for(int i=0;i<s.length();i++){
+            char ch=s[i];
+
+            int mask=1;
+            int c=ch-'a';
+            mask=mask<<c;
+            
+            if((flag&mask)!=0){
+                //already exists
+                //reset flag
+                cout<<"reset"<<endl;
+                flag=0;
+                count++;
             }
-            setBit(flag, n);
-            i++;
+            
+            flag=flag|mask;
+            
+            
         }
-        return ans;
+
+        return count;
     }
 };
