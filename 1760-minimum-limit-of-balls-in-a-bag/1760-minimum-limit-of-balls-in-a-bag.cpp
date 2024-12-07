@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool isPossible(vector<int>& nums,int maxSize,int maxOperations){
+    bool isPossible(vector<int>& nums,int &maxSize,int &maxOperations){
         int buckets=0;
 
         for(int i=0;i<nums.size();i++){
@@ -17,7 +17,7 @@ public:
         int high=INT_MIN;
 
         for(auto it:nums) high=max(high,it);
-        cout<<low<<" "<<high<<endl;
+        // cout<<low<<" "<<high<<endl;
 
         while(low<=high){
             int mid=low+(high-low)/2;
