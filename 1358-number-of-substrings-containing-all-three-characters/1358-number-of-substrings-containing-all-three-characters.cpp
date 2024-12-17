@@ -1,25 +1,17 @@
 class Solution {
 public:
-    bool allPresent(vector<int> &count){
-        return (count[0] && count[1] && count[2]);
-    }
     int numberOfSubstrings(string s) {
-        int n=s.length();
+        int a=-1,b=-1,c=-1;
+        int count=0;
+        for(int i=0;i<s.length();i++){
+            if(s[i]=='a') a=i;
+            else if(s[i]=='b') b=i;
+            else c=i;
 
-        int left=0,right=0;
-        vector<int> count(3,0);
-        int res=0;
-        while(right<n){
-            count[s[right]-97]++;
-
-            while(allPresent(count)){
-                res+=n-right;
-                count[s[left]-97]--;
-                left++;
-            }
-            right++;
+            int startOfWindow=min({a,b,c});
+            if(startOfWindow!=-1) count+=startOfWindow+1;
         }
 
-        return res;
+        return count;
     }
 };
