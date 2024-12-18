@@ -9,7 +9,7 @@ public:
         int count=0;
         for(;right<n;right++){
             sum+=nums[right];
-            cout<<left<< " "<<right<<endl;
+            // cout<<left<< " "<<right<<endl;
             while(sum>k && left<=right){
                 sum-=nums[left];
                 left++;
