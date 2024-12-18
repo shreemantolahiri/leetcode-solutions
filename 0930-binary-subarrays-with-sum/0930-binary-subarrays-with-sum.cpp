@@ -1,35 +1,27 @@
 class Solution {
 public:
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
-        int n=nums.size();
+    int subLessThanK(vector<int>& nums, int k){
+        int left=0,right=0;
 
-        unordered_map<int,int> mp;
-        mp[0]=1;
-        int s=0;
-        int res=0;
-        for(auto it:nums){
-            s+=it;
-            
-            if(s>=goal){
-                if(mp.find(s-goal)!=mp.end()){
-                    res+=mp[s-goal];
-                }
+        int n=nums.size();
+        int sum=0;
+
+        int count=0;
+        for(;right<n;right++){
+            sum+=nums[right];
+            cout<<left<< " "<<right<<endl;
+            while(sum>k && left<=right){
+                sum-=nums[left];
+                left++;
             }
 
-            mp[s]++;
+            count+=right-left+1;
         }
-        
-        // for(auto it:mp){
-            
-        //     int sum=it.first;
-        //     if(sum<goal) continue;
-        //     else{
-        //         if(mp.find(sum-goal)!=mp.end()){
-        //             res+=mp[sum-goal];
-        //         }
-        //     }
-        // }
 
-        return res;
+        return count;
+    }
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        if(goal==0) return subLessThanK(nums,goal);
+        return subLessThanK(nums,goal) - subLessThanK(nums,goal-1);
     }
 };
