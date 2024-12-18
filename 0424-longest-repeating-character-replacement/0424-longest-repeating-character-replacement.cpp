@@ -13,19 +13,13 @@ public:
             maxf=max(maxf,mp[s[right]-65]);
 
             int toChange=right-left+1-maxf;
-
-            while(toChange>k){
+            if(toChange>k){
                 mp[s[left]-65]--;
                 left++;
-                //update maxFreq
-                int maxi=0;
-                for(auto i:mp) maxi=max(maxi,i);
-
-                maxf=maxi;
-                toChange=right-left+1-maxf;
             }
+            
 
-            res=max(res,right-left+1);
+            if(toChange<=k) res=max(res,right-left+1);
 
         }
 
