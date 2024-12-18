@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int getIndex(char c){
+    int getIndex(char &c){
         if(c>='a' && c<='z') return c-'a';
 
         else return 26+c-'A';
@@ -26,13 +26,7 @@ public:
 
         for(;right<s.length();right++){
             smap[getIndex(s[right])]++;
-            // cout<<minLen<<endl;
-            // cout<<left<<" "<<right<<endl;
-
-            // for(int i=0;i<52;i++){
-            //     cout<<smap[i]<<" ";
-            // }
-            // cout<<endl;
+            
             while(cmp(smap,tmap)){
                 if(right-left+1<minLen){
                     minInd=left;
