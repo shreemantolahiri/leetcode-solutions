@@ -2,8 +2,7 @@ class Solution {
     public int tupleSameProduct(int[] nums) {
         int n = nums.length;
         Map<Integer, Integer> map = new HashMap<>();
-        if (n < 4)
-            return 0;
+        
         int count = 0;
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
