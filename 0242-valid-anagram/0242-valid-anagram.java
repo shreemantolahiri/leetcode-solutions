@@ -1,16 +1,24 @@
+// Time Complexity: O(n) — where n is the length of the strings
+// Space Complexity: O(1) — fixed-size array for 26 lowercase letters
+
 class Solution {
     public boolean isAnagram(String s, String t) {
-        //brute force
-        int n=s.length(); int m=t.length();
-        if(n!=m) return false;
-        int[] freq = new int[26]; // Automatically initialized to 0
-        for(Character c: s.toCharArray()){
-            freq[c-'a']++;
+        int n = s.length(), m = t.length();
+        if (n != m) return false; // Lengths don't match → can't be anagrams
+
+        int[] freq = new int[26]; // Frequency array for lowercase English letters
+
+        // Count characters in s
+        for (char c : s.toCharArray()) {
+            freq[c - 'a']++;
         }
-        for(Character c: t.toCharArray()){
-            if(freq[c-'a']==0) return false;
-            else freq[c-'a']--;
+
+        // Subtract characters in t
+        for (char c : t.toCharArray()) {
+            if (freq[c - 'a'] == 0) return false; // t has extra character
+            freq[c - 'a']--;
         }
-        return true;
+
+        return true; // All characters matched
     }
 }
