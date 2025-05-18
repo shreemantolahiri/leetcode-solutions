@@ -1,24 +1,26 @@
 // Time Complexity: O(n) — where n is the length of the strings
-// Space Complexity: O(1) — fixed-size array for 26 lowercase letters
+// Space Complexity: O(n) — for storing frequency map (worst case all unique characters)
+
+import java.util.HashMap;
 
 class Solution {
     public boolean isAnagram(String s, String t) {
         int n = s.length(), m = t.length();
-        if (n != m) return false; // Lengths don't match → can't be anagrams
+        if (n != m) return false; // Strings of different lengths cannot be anagrams
 
-        HashMap<Character,Integer> freq=new HashMap<>();
+        HashMap<Character, Integer> freq = new HashMap<>();
 
         // Count characters in s
         for (char c : s.toCharArray()) {
-            freq.put(c, freq.getOrDefault(c,0)+1);
+            freq.put(c, freq.getOrDefault(c, 0) + 1);
         }
 
-        // Subtract characters in t
+        // Subtract character frequencies using t
         for (char c : t.toCharArray()) {
-            if (!freq.containsKey(c) || freq.get(c) == 0) return false;
-            freq.put(c, freq.getOrDefault(c,0)+1);
+            if (!freq.containsKey(c) || freq.get(c) == 0) return false; // Extra or unmatched character
+            freq.put(c, freq.get(c) - 1);
         }
 
-        return true; // All characters matched
+        return true; // All character frequencies matched
     }
 }
