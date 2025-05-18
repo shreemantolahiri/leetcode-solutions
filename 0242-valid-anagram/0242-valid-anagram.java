@@ -16,7 +16,7 @@ class Solution {
         // Subtract characters in t
         for (char c : t.toCharArray()) {
             if (!freq.containsKey(c) || freq.get(c) == 0) return false;
-            freq.put(c, freq.getOrDefault(c,0)-1);
+            freq.put(c, freq.getOrDefault(c,0)+1);
         }
 
         return true; // All characters matched
