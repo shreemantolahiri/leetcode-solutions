@@ -1,26 +1,17 @@
-// Time Complexity: O(n) — where n is the length of the strings
-// Space Complexity: O(n) — for storing frequency map (worst case all unique characters)
-
-import java.util.HashMap;
-
 class Solution {
     public boolean isAnagram(String s, String t) {
-        int n = s.length(), m = t.length();
-        if (n != m) return false; // Strings of different lengths cannot be anagrams
+        char[] s1=s.toCharArray();
+        char[] s2=t.toCharArray();
 
-        HashMap<Character, Integer> freq = new HashMap<>();
+        Arrays.sort(s1);
+        Arrays.sort(s2);
 
-        // Count characters in s
-        for (char c : s.toCharArray()) {
-            freq.put(c, freq.getOrDefault(c, 0) + 1);
+        if(s1.length!=s2.length) return false;
+
+        for(int i=0;i<s1.length;i++){
+            if(s1[i]!=s2[i]) return false;
         }
 
-        // Subtract character frequencies using t
-        for (char c : t.toCharArray()) {
-            if (!freq.containsKey(c) || freq.get(c) == 0) return false; // Extra or unmatched character
-            freq.put(c, freq.get(c) - 1);
-        }
-
-        return true; // All character frequencies matched
+        return true;
     }
 }
