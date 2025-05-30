@@ -37,8 +37,8 @@ class Solution {
             // System.out.println(n1_dist[i]+" "+n2_dist[i]);
             if(n1_dist[i]!=Integer.MAX_VALUE && n2_dist[i]!=Integer.MAX_VALUE){
 
-                if(minDist>Math.min(minDist,Math.max(n1_dist[i],n2_dist[i]))){
-                    minDist=Math.min(minDist,Math.max(n1_dist[i],n2_dist[i]));
+                if(minDist>Math.max(n1_dist[i],n2_dist[i])){
+                    minDist=Math.max(n1_dist[i],n2_dist[i]);
                     minIndex=i;
                 }
             }
