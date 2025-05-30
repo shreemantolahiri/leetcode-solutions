@@ -1,11 +1,4 @@
 class Solution {
-    class Pair {
-    int first, second;
-    Pair(int f, int s) {
-        this.first = f;
-        this.second = s;
-    }
-}
     public int closestMeetingNode(int[] edges, int node1, int node2) {
 
         int n = edges.length;
@@ -15,41 +8,39 @@ class Solution {
             n2_dist[i] = Integer.MAX_VALUE;
         }
         n1_dist[node1]=0; n2_dist[node2]=0;
-        Queue<Pair> q= new LinkedList<>();
+        Queue<Integer> q= new LinkedList<>();
 
         //for node 1
-        q.offer(new Pair(node1,0));
+        q.offer(node1);
         while(!q.isEmpty()){
-            Pair p=q.poll();
-            int node=p.first;
-            int distance=p.second;
+            int node=q.poll();
+            int distance=n1_dist[node];
             int destNode=edges[node];
             
             if(destNode==-1) continue; //end of graph
             else{
-                if(n1_dist[destNode]<distance+1) continue;
+                if(n1_dist[destNode]<=distance+1) continue;
                 else{
                     n1_dist[destNode]=distance+1;
-                    q.offer(new Pair(destNode,distance+1));
+                    q.offer(destNode);
                 }
             }
 
         }
 
         //for second node
-        q.offer(new Pair(node2,0));
+        q.offer(node2);
         while(!q.isEmpty()){
-            Pair p=q.poll();
-            int node=p.first;
-            int distance=p.second;
+            int node=q.poll();
+            int distance=n2_dist[node];
             int destNode=edges[node];
             
             if(destNode==-1) continue; //end of graph
             else{
-                if(n2_dist[destNode]<distance+1) continue;
+                if(n2_dist[destNode]<=distance+1) continue;
                 else{
                     n2_dist[destNode]=distance+1;
-                    q.offer(new Pair(destNode,distance+1));
+                    q.offer(destNode);
                 }
             }
         }
